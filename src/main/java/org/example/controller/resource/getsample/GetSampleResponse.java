@@ -6,16 +6,29 @@ import lombok.Value;
 
 @Value
 public class GetSampleResponse {
-    @ApiModelProperty(required = true, value = "サンプルID", example = "HOGEHOGE", position = 1)
+    @ApiModelProperty(required = true, value = "サンプルID", example = "HOGEHOGE")
     @JsonProperty("sampleid")
     private final String sampleId;
 
-    @ApiModelProperty(value = "サンプル名", example = "サンプル名", position = 2)
-    @JsonProperty("samplename")
-    private final String sampleName;
+    @ApiModelProperty(required = true)
+    @JsonProperty("sampleinfo")
+    private final SampleInfo sampleInfo;
 
-    @ApiModelProperty(required = true, value = "サンプル種別", example = "1", position = 3)
-    @JsonProperty("sampletype")
-    private final int sampleType;
+    @Value
+    public static class SampleInfo {
+
+        @ApiModelProperty(value = "サンプ",
+                example = "サンプル名")
+        @JsonProperty("samplename")
+        private final String sampleName;
+
+        @ApiModelProperty(required = true, value =
+                "サンプル種別： \n\n" +
+                        "`1` - サンプル種別1 \n\n" +
+                        "`2` - サンプル種別2", example = "1", allowableValues = "range[1, 100]")
+        @JsonProperty("sampletype")
+        private final int sampleType;
+
+    }
 
 }
