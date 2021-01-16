@@ -1,2 +1,0 @@
-GenerateSwagger.java
- GenerateSwagger
