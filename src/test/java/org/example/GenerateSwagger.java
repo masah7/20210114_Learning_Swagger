@@ -1,5 +1,7 @@
 package org.example;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.FileUtils;
@@ -27,9 +29,16 @@ public class GenerateSwagger {
     public void generateSwagger() throws Exception {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/api-docs").contentType(MediaType.APPLICATION_JSON))
+
                 .andDo(result -> FileUtils.writeStringToFile(
                         new File("docs/swagger.json"),
-                        new String(result.getResponse().getContentAsByteArray(), StandardCharsets.UTF_8), StandardCharsets.UTF_8));
+                        new GsonBuilder().serializeNulls().setPrettyPrinting().create().toJson(
+                                JsonParser.parseString(
+                                        new String(result.getResponse().getContentAsByteArray(), StandardCharsets.UTF_8)
+                                )
+                        ),
+                        StandardCharsets.UTF_8
+                ));
 
     }
 }
