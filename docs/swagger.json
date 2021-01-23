@@ -27,8 +27,7 @@
           "200": {
             "description": "登録したTODO",
             "schema": {
-              "$ref": "#/definitions/GetTodoResponse",
-              "originalRef": "GetTodoResponse"
+              "$ref": "#/definitions/GetTodoResponse"
             }
           },
           "400": {
@@ -66,8 +65,7 @@
             "description": "postTodoRequest",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PostTodoRequest",
-              "originalRef": "PostTodoRequest"
+              "$ref": "#/definitions/PostTodoRequest"
             }
           }
         ],
@@ -75,8 +73,7 @@
           "200": {
             "description": "処理結果",
             "schema": {
-              "$ref": "#/definitions/PostTodoResponse",
-              "originalRef": "PostTodoResponse"
+              "$ref": "#/definitions/PostTodoResponse"
             }
           },
           "201": {

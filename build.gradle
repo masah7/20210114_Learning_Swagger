@@ -1,17 +1,15 @@
 plugins {
     id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-    id "io.swagger.core.v3.swagger-gradle-plugin" version "2.1.6"
     id 'java'
 }
+group 'org.example'
+version '1.0-SNAPSHOT'
+sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
 }
-
-group 'org.example'
-version '1.0-SNAPSHOT'
-sourceCompatibility = '11'
 
 test {
     useJUnitPlatform {
@@ -20,35 +18,14 @@ test {
 }
 
 dependencies {
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'commons-io:commons-io:2.8.0'
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
-    implementation('io.springfox:springfox-swagger2:2.9.2') {
-        exclude module: 'swagger-annotations'
-        exclude module: 'swagger-models'
-    }
-    implementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude module: 'junit' // 1
-    }
+    implementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.junit.jupiter:junit-jupiter-api'
     implementation 'org.junit.jupiter:junit-jupiter-engine'
     implementation 'org.junit.jupiter:junit-jupiter:5.5.2'
-
-    compileOnly 'io.swagger:swagger-annotations:1.5.21'
-    implementation 'io.swagger:swagger-models:1.5.21'
-
-    implementation 'com.google.code.gson:gson:2.8.6'
-
-    implementation 'commons-io:commons-io:2.8.0'
     compileOnly "org.projectlombok:lombok:1.18.16"
     annotationProcessor "org.projectlombok:lombok:1.18.16"
-
-}
-
-resolve {
-    outputFileName = 'swagger'
-    outputFormat = 'JSON'
-    prettyPrint = 'TRUE'
-    classpath = sourceSets.main.runtimeClasspath
-    resourcePackages = ['org.example']
-    outputDir = file('docs')
 }
