@@ -21,18 +21,18 @@ public class SwaggerConfig {
     @Bean
     public Docket restApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .tags(new Tag("Sample", "サンプル"))
+                .tags(new Tag("TODO", "TODO管理API"))
                 .apiInfo(apiInfo())
                 .select()
                 .apis(apis())
                 .paths(Predicates.not(PathSelectors.regex("/error.*")))
-                .build();
+                .build()
+                .apiInfo(apiInfo());
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("サンプルAPI")
-                .description("サンプルAPIの説明")
+                .title("TODO管理API")
                 .build();
     }
 

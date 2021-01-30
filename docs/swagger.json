@@ -1,50 +1,37 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "サンプルAPIの説明",
-    "title": "サンプルAPI"
+    "title": "TODO管理API"
   },
   "host": "localhost",
   "basePath": "/",
   "tags": [
     {
-      "name": "Sample",
-      "description": "サンプル"
+      "name": "TODO",
+      "description": "TODO管理API"
     }
   ],
   "paths": {
-    "/sample": {
+    "/todo": {
       "get": {
         "tags": [
-          "Sample"
+          "TODO"
         ],
-        "summary": "GetSample",
-        "description": "Sampleを取得するAPI",
-        "operationId": "getSampleUsingGET",
+        "summary": "GetTodo",
+        "description": "TODOを取得するAPI",
+        "operationId": "getTodoUsingGET",
         "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "sampleId",
-            "description": "サンプルID",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "x-examples": {
-              "string": "hoge"
-            }
-          }
+          "application/json"
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "登録したTODO",
             "schema": {
-              "originalRef": "GetSampleResponse",
-              "$ref": "#/definitions/GetSampleResponse"
+              "$ref": "#/definitions/GetTodoResponse"
             }
+          },
+          "400": {
+            "description": "リクエストに必須の項目が不足、または不正な値を指定している。"
           },
           "401": {
             "description": "Unauthorized"
@@ -53,61 +40,47 @@
             "description": "Forbidden"
           },
           "404": {
-            "description": "Not Found"
+            "description": "TOODが存在しない"
           }
         },
         "deprecated": false
       },
       "post": {
         "tags": [
-          "Sample"
+          "TODO"
         ],
-        "summary": "PostSample",
-        "description": "Sampleを登録するAPI",
-        "operationId": "postSampleUsingPOST",
+        "summary": "PostTodo",
+        "description": "TODOを登録するAPI",
+        "operationId": "postTodoUsingPOST",
         "consumes": [
           "application/json"
         ],
         "produces": [
-          "*/*"
+          "application/json"
         ],
         "parameters": [
           {
-            "name": "sampleId",
-            "in": "query",
-            "description": "サンプルID",
+            "in": "body",
+            "name": "postTodoRequest",
+            "description": "postTodoRequest",
             "required": true,
-            "type": "string",
-            "x-example": "HOGEHOGE"
-          },
-          {
-            "name": "sampleName",
-            "in": "query",
-            "description": "サンプル名",
-            "required": false,
-            "type": "string",
-            "x-example": "サンプル名"
-          },
-          {
-            "name": "sampleType",
-            "in": "query",
-            "description": "サンプル種別",
-            "required": true,
-            "type": "integer",
-            "format": "int32",
-            "x-example": 1
+            "schema": {
+              "$ref": "#/definitions/PostTodoRequest"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "処理結果",
             "schema": {
-              "originalRef": "PostSampleResponse",
-              "$ref": "#/definitions/PostSampleResponse"
+              "$ref": "#/definitions/PostTodoResponse"
             }
           },
           "201": {
             "description": "Created"
+          },
+          "400": {
+            "description": "リクエストに必須の項目が不足、または不正な値を指定している。"
           },
           "401": {
             "description": "Unauthorized"
@@ -124,26 +97,94 @@
     }
   },
   "definitions": {
-    "GetSampleResponse": {
+    "GetTodoResponse": {
       "type": "object",
       "required": [
-        "sampleid",
-        "sampleinfo"
+        "deadline",
+        "id",
+        "isDone",
+        "priority",
+        "title"
       ],
       "properties": {
-        "sampleid": {
-          "type": "string",
-          "example": "HOGEHOGE",
-          "description": "サンプルID"
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "description": "id\n\nAPI側で自動採番"
         },
-        "sampleinfo": {
-          "originalRef": "SampleInfo",
-          "$ref": "#/definitions/SampleInfo"
+        "title": {
+          "type": "string",
+          "example": "〇〇案件",
+          "description": "タスク名"
+        },
+        "deadline": {
+          "type": "string",
+          "example": "2021/02/01",
+          "description": "期限（Y/m/d）"
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "description": "優先度\n\n`1` - 優先度高 \n\n`2` - 優先度中 \n\n`3` - 優先度低 \n\n",
+          "enum": [
+            1,
+            2,
+            3
+          ]
+        },
+        "start": {
+          "type": "string",
+          "example": "2021/01/25",
+          "description": "着手日（Y/m/d）"
+        },
+        "end": {
+          "type": "string",
+          "example": "2021/01/30",
+          "description": "完了日（Y/m/d）"
+        },
+        "isDone": {
+          "type": "boolean",
+          "example": true,
+          "description": "タスクが完了したか"
         }
       },
-      "title": "GetSampleResponse"
+      "title": "GetTodoResponse"
     },
-    "PostSampleResponse": {
+    "PostTodoRequest": {
+      "type": "object",
+      "required": [
+        "deadline",
+        "priority",
+        "title"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "〇〇案件",
+          "description": "タスク名"
+        },
+        "deadline": {
+          "type": "string",
+          "example": "2021/02/01",
+          "description": "期限（Y/m/d）"
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "description": "優先度\n\n`1` - 優先度高 \n\n`2` - 優先度中 \n\n`3` - 優先度低 \n\n",
+          "enum": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "title": "PostTodoRequest"
+    },
+    "PostTodoResponse": {
       "type": "object",
       "required": [
         "result"
@@ -155,32 +196,8 @@
           "description": "結果"
         }
       },
-      "title": "PostSampleResponse",
+      "title": "PostTodoResponse",
       "description": "Sample model for the documentation"
-    },
-    "SampleInfo": {
-      "type": "object",
-      "required": [
-        "sampletype"
-      ],
-      "properties": {
-        "samplename": {
-          "type": "string",
-          "example": "サンプル名",
-          "description": "サンプ"
-        },
-        "sampletype": {
-          "type": "integer",
-          "format": "int32",
-          "example": 1,
-          "description": "サンプル種別： \n\n`1` - サンプル種別1 \n\n`2` - サンプル種別2",
-          "minimum": 1,
-          "maximum": 100,
-          "exclusiveMinimum": false,
-          "exclusiveMaximum": false
-        }
-      },
-      "title": "SampleInfo"
     }
   }
 }
