@@ -1,7 +1,7 @@
 # Learn Swagger
 
 ## ReDoc
-https://masah7.github.io/20210114_learn_swagger/redoc/
+https://masahosono.github.io/20210114_Learning_Swagger/redoc/
 
 ## Swagger-ui
-https://masah7.github.io/20210114_learn_swagger/swagger-ui
+https://masahosono.github.io/20210114_Learning_Swagger/swagger-ui
